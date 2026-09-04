@@ -4,11 +4,12 @@ const {
   getAllBoardings,
   getBoardingById,
 } = require('../controllers/boardingController');
+const { validateCreateBoarding } = require('../middleware/validation');
 
 const router = express.Router();
 
 router.get('/', getAllBoardings);
 router.get('/:id', getBoardingById);
-router.post('/', createBoarding);
+router.post('/', validateCreateBoarding, createBoarding);
 
 module.exports = router;

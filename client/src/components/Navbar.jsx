@@ -1,31 +1,5 @@
+﻿import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-
-const navigationItems = [
-  { to: '/', label: 'Home' },
-  { to: '/find', label: 'Find Boarding' },
-  { to: '/add', label: 'Add Boarding' },
-];
-
-function Navbar() {
-  return (
-    <header className="navbar">
-      <nav className="navbar-content" aria-label="Main navigation">
-        <NavLink className="brand" to="/">BoardMe LK</NavLink>
-        <div className="nav-links">
-          {navigationItems.map((item) => (
-            <NavLink
-              key={item.to}
-              className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
-              end={item.to === '/'}
-              to={item.to}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </div>
-      </nav>
-    </header>
-  );
-}
-
+const items = [['/', 'Home'], ['/find', 'Find Boarding'], ['/add', 'Add Boarding']];
+function Navbar() { const [open, setOpen] = useState(false); return <header className="navbar"><nav className="navbar-content content-width"><NavLink className="brand" to="/" onClick={() => setOpen(false)}>BoardMe LK</NavLink><button className="menu-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded={open} onClick={() => setOpen(!open)}><span/><span/><span/></button><div className={open ? 'nav-links nav-links-open' : 'nav-links'}>{items.map(([to, label]) => <NavLink key={to} to={to} end={to === '/'} onClick={() => setOpen(false)} className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>{label}</NavLink>)}</div></nav></header>; }
 export default Navbar;

@@ -1,10 +1,7 @@
-function Home() {
-  return (
-    <section>
-      <h1 className="page-title">Welcome to BoardMe LK</h1>
-      <p>Smart Boarding Finder for Sri Lanka. More features will be added soon.</p>
-    </section>
-  );
-}
+﻿import { Link } from 'react-router-dom';
+import heroImage from '../assets/boarding-hero.png';
 
+function Home() {
+  return <div className="home-page"><section className="hero-section"><img className="hero-image" src={heroImage} alt="Sri Lankan students reviewing accommodation options" /><div className="hero-overlay" /><div className="hero-content content-width"><p className="eyebrow">Smart boarding finder for Sri Lanka</p><h1>BoardMe LK</h1><p className="hero-tagline">Find the right boarding, without the endless searching.</p><p className="hero-copy">Students and workers in Sri Lanka often rely on scattered Facebook posts, groups, and word of mouth to find accommodation. BoardMe LK brings the important details into one practical place.</p><div className="hero-actions"><Link className="button button-primary" to="/find">Find Boarding</Link><Link className="button button-secondary" to="/add">Add Boarding</Link></div></div></section><section className="benefits-section content-width"><p className="eyebrow eyebrow-dark">A better starting point</p><h2>Less searching. More certainty.</h2><div className="benefit-grid">{[['Search with focus','Start with the location, budget, and facilities that matter to you.'],['Compare clearly','See boarding essentials before you spend time following up.'],['Built for Sri Lanka','A simpler alternative to scattered Facebook posts and word of mouth.']].map(([title, text], index) => <article className="feature-card" key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div></section></div>;
+}
 export default Home;

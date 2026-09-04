@@ -124,3 +124,46 @@ Supabase credentials are used only by the backend. Never add `SUPABASE_KEY` to f
 ChatGPT – Assisted with project planning, React component generation, backend API structure, database schema design, search and filtering logic, debugging, and report preparation. Generated outputs were reviewed, tested, and modified before integration.
 
 Microsoft Copilot – Assisted with code completion, component generation, refactoring, debugging suggestions, and implementation of frontend and backend features. Generated outputs were reviewed and tested before use.
+
+## Team Members
+
+IT24103238 - Fonseka N H D K
+IT24102811 - Jayasinghe P K A
+IT24102346 - Dewanarayana S D W	
+IT24102701 - Abeywardena W A A U	
+
+
+## Team Contributions
+
+Member 1 - IT24102701
+•	Developed Home Page
+•	Developed Find Boarding Page
+•	Created Navbar Component
+•	Created Boarding Card Component
+•	Implemented Search UI
+•	Connected Frontend API Services
+
+
+Member 2 - IT24102346
+•	Developed Add Boarding Page
+•	Developed Boarding Form Component
+•	Implemented Form Validation
+•	Developed Boarding Details Page
+•	Created Facility Badge Components
+
+
+Member 3 – IT24103238
+•	Developed Express Backend
+•	Implemented Boarding APIs
+•	Configured Supabase Integration
+•	Added Backend Validation
+•	Managed API Response Handling
+
+
+Member 4 – IT24102811
+•	Designed Database Schema 
+•	Created Sri Lankan Sample Boarding Data 
+•	Implemented Search and Filtering Service 
+•	Developed Match Score Algorithm 
+•	Assisted with Search Result Ranking
+

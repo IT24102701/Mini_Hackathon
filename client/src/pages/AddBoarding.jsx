@@ -1,9 +1,15 @@
+import BoardingForm from '../components/BoardingForm';
+
 function AddBoarding() {
   return (
-    <section>
-      <h1 className="page-title">Add Boarding</h1>
-      <p>A form for adding a boarding place will be available here soon.</p>
-    </section>
+    <main className="member-page content-width">
+      <header className="member-page-header">
+        <p className="eyebrow eyebrow-dark">List a property</p>
+        <h1>Add a boarding place</h1>
+        <p>Share the essentials students need to decide whether your place is right for them.</p>
+      </header>
+      <BoardingForm />
+    </main>
   );
 }
 

@@ -118,3 +118,9 @@ npm run dev
 ```
 
 Supabase credentials are used only by the backend. Never add `SUPABASE_KEY` to frontend environment files.
+
+## AI Tools
+
+ChatGPT – Assisted with project planning, React component generation, backend API structure, database schema design, search and filtering logic, debugging, and report preparation. Generated outputs were reviewed, tested, and modified before integration.
+
+Microsoft Copilot – Assisted with code completion, component generation, refactoring, debugging suggestions, and implementation of frontend and backend features. Generated outputs were reviewed and tested before use.

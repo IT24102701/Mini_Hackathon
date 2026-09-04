@@ -1,7 +1,10 @@
 const {
   getSupabaseClient,
   hasSupabaseConfig,
+  hasServerSupabaseKey,
 } = require('../services/supabase');
+const { searchBoardings } = require('../services/searchService');
+const { rankBoardings } = require('../services/matchingService');
 
 function getSupabaseOrRespond(res) {
   if (!hasSupabaseConfig()) {
@@ -9,6 +12,15 @@ function getSupabaseOrRespond(res) {
       success: false,
       message:
         'Supabase is not configured. Add SUPABASE_URL and SUPABASE_KEY in server/.env.',
+    });
+    return null;
+  }
+
+  if (!hasServerSupabaseKey()) {
+    res.status(500).json({
+      success: false,
+      message:
+        'Supabase is using a publishable key. Set SUPABASE_KEY to a server Secret key or service_role key in server/.env, then restart the server.',
     });
     return null;
   }
@@ -48,6 +60,33 @@ async function getAllBoardings(req, res) {
   return res.status(200).json({
     success: true,
     data: data || [],
+  });
+}
+
+async function searchBoardingsByPreferences(req, res) {
+  const supabase = getSupabaseOrRespond(res);
+
+  if (!supabase) {
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from('boardings')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'We could not search boardings right now. Please try again.',
+    });
+  }
+
+  const matches = searchBoardings(data || [], req.query);
+
+  return res.status(200).json({
+    success: true,
+    data: rankBoardings(matches, req.query),
   });
 }
 
@@ -121,6 +160,7 @@ async function createBoarding(req, res) {
 
 module.exports = {
   getAllBoardings,
+  searchBoardingsByPreferences,
   getBoardingById,
   createBoarding,
 };

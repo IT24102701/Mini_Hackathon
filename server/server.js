@@ -20,10 +20,11 @@ const configuredOrigins = (process.env.CORS_ORIGINS || '')
   .filter(Boolean);
 
 const allowedOrigins = new Set([...defaultDevOrigins, ...configuredOrigins]);
+const localDevelopmentOrigin = /^http:\/\/(localhost|127\.0\.0\.1):\d+$/;
 
 const corsOptions = {
   origin(origin, callback) {
-    if (!origin || allowedOrigins.has(origin)) {
+    if (!origin || allowedOrigins.has(origin) || localDevelopmentOrigin.test(origin)) {
       return callback(null, true);
     }
 
@@ -44,6 +45,13 @@ app.get('/api/health', (req, res) => {
 app.use('/api/boardings', boardingRoutes);
 
 app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({
+      success: false,
+      message: 'Request body must contain valid JSON.',
+    });
+  }
+
   if (err.message === 'CORS origin is not allowed.') {
     return res.status(403).json({
       success: false,

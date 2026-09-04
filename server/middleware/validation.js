@@ -1,6 +1,10 @@
 const ROOM_TYPES = ['Single Room', 'Shared Room', 'Annex'];
 const GENDER_PREFERENCES = ['Male', 'Female', 'Any'];
 const SRI_LANKAN_MOBILE_REGEX = /^(?:\+94|0)7\d{8}$/;
+const MAX_TITLE_LENGTH = 120;
+const MAX_LOCATION_LENGTH = 100;
+const MAX_DISTRICT_LENGTH = 100;
+const MAX_DESCRIPTION_LENGTH = 1000;
 
 function sanitizeText(value) {
   return typeof value === 'string' ? value.trim() : '';
@@ -19,15 +23,21 @@ function sanitizePhoneNumber(value) {
 }
 
 function sanitizeBoolean(value) {
+  if (value == null || value === '') {
+    return false;
+  }
+
   if (typeof value === 'boolean') {
     return value;
   }
 
   if (typeof value === 'string') {
-    return value.toLowerCase() === 'true';
+    const normalized = value.toLowerCase();
+    if (normalized === 'true') return true;
+    if (normalized === 'false') return false;
   }
 
-  return Boolean(value);
+  return null;
 }
 
 function validateCreateBoarding(req, res, next) {
@@ -51,6 +61,10 @@ function validateCreateBoarding(req, res, next) {
     });
   }
 
+  if (title.length > MAX_TITLE_LENGTH) {
+    return res.status(400).json({ success: false, message: `Title must be ${MAX_TITLE_LENGTH} characters or fewer.` });
+  }
+
   if (!location) {
     return res.status(400).json({
       success: false,
@@ -58,11 +72,19 @@ function validateCreateBoarding(req, res, next) {
     });
   }
 
+  if (location.length > MAX_LOCATION_LENGTH) {
+    return res.status(400).json({ success: false, message: `Location must be ${MAX_LOCATION_LENGTH} characters or fewer.` });
+  }
+
   if (!district) {
     return res.status(400).json({
       success: false,
       message: 'Please provide the district.',
     });
+  }
+
+  if (district.length > MAX_DISTRICT_LENGTH) {
+    return res.status(400).json({ success: false, message: `District must be ${MAX_DISTRICT_LENGTH} characters or fewer.` });
   }
 
   if (!Number.isFinite(monthlyRent) || monthlyRent <= 0) {
@@ -121,6 +143,22 @@ function validateCreateBoarding(req, res, next) {
     });
   }
 
+  if (description.length > MAX_DESCRIPTION_LENGTH) {
+    return res.status(400).json({ success: false, message: `Description must be ${MAX_DESCRIPTION_LENGTH} characters or fewer.` });
+  }
+
+  const facilities = ['wifi', 'kitchen', 'attached_bathroom', 'parking'];
+  const parsedFacilities = Object.fromEntries(
+    facilities.map((facility) => [facility, sanitizeBoolean(req.body[facility])])
+  );
+
+  if (Object.values(parsedFacilities).some((value) => value === null)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Facility values must be true or false.',
+    });
+  }
+
   req.validatedBoarding = {
     title,
     location,
@@ -129,10 +167,7 @@ function validateCreateBoarding(req, res, next) {
     room_type: roomType,
     gender_preference: genderPreference,
     contact_number: contactNumber,
-    wifi: sanitizeBoolean(req.body.wifi),
-    kitchen: sanitizeBoolean(req.body.kitchen),
-    attached_bathroom: sanitizeBoolean(req.body.attached_bathroom),
-    parking: sanitizeBoolean(req.body.parking),
+    ...parsedFacilities,
     distance_km: distanceKm,
     description,
   };

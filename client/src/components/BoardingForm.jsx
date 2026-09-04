@@ -3,6 +3,9 @@ import api from '../services/api';
 import './BoardingForm.css';
 
 const LOCATIONS = ['Malabe', 'Kaduwela', 'Battaramulla', 'Rajagiriya', 'Nugegoda', 'Maharagama', 'Homagama', 'Colombo'];
+const TITLE_LIMIT = 120;
+const LOCATION_LIMIT = 100;
+const DISTRICT_LIMIT = 100;
 const DESCRIPTION_LIMIT = 1000;
 
 const initialValues = {
@@ -14,8 +17,11 @@ const initialValues = {
 function validate(values) {
   const errors = {};
   if (!values.title.trim()) errors.title = 'Please enter a title for the boarding.';
+  else if (values.title.trim().length > TITLE_LIMIT) errors.title = `Title must be ${TITLE_LIMIT} characters or fewer.`;
   if (!values.location.trim()) errors.location = 'Please enter the town or area.';
+  else if (values.location.trim().length > LOCATION_LIMIT) errors.location = `Location must be ${LOCATION_LIMIT} characters or fewer.`;
   if (!values.district.trim()) errors.district = 'Please enter the district.';
+  else if (values.district.trim().length > DISTRICT_LIMIT) errors.district = `District must be ${DISTRICT_LIMIT} characters or fewer.`;
   if (values.monthlyRent === '') errors.monthlyRent = 'Please enter the monthly rent.';
   else if (!Number.isFinite(Number(values.monthlyRent)) || Number(values.monthlyRent) <= 0) errors.monthlyRent = 'Monthly rent must be greater than Rs. 0.';
   if (!values.roomType) errors.roomType = 'Please select a room type.';
@@ -110,16 +116,16 @@ function BoardingForm() {
     <form className="boarding-form" onSubmit={handleSubmit} noValidate>
       <div className="boarding-form-grid">
         <label className="form-field form-field-wide">Title <span aria-hidden="true">*</span>
-          <input {...inputProps('title')} maxLength="120" placeholder="Student Room Near SLIIT" />
+          <input {...inputProps('title')} maxLength={TITLE_LIMIT} placeholder="Student Room Near SLIIT" />
           <FieldError id="title-error">{errors.title}</FieldError>
         </label>
         <label className="form-field">Location <span aria-hidden="true">*</span>
-          <input {...inputProps('location')} list="sri-lankan-locations" placeholder="Malabe" />
+          <input {...inputProps('location')} list="sri-lankan-locations" maxLength={LOCATION_LIMIT} placeholder="Malabe" />
           <datalist id="sri-lankan-locations">{LOCATIONS.map((location) => <option key={location} value={location} />)}</datalist>
           <FieldError id="location-error">{errors.location}</FieldError>
         </label>
         <label className="form-field">District <span aria-hidden="true">*</span>
-          <input {...inputProps('district')} placeholder="Colombo" />
+          <input {...inputProps('district')} maxLength={DISTRICT_LIMIT} placeholder="Colombo" />
           <FieldError id="district-error">{errors.district}</FieldError>
         </label>
         <label className="form-field">Monthly rent (Rs.) <span aria-hidden="true">*</span>

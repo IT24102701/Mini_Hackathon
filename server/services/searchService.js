@@ -32,7 +32,7 @@ function searchBoardings(boardings, filters = {}) {
     if (location && !normalize(boarding.location).includes(location)) return false;
     if (Number.isFinite(maxBudget) && Number(boarding.monthly_rent) > maxBudget) return false;
     if (roomType && normalize(boarding.room_type) !== roomType) return false;
-    if (gender && normalize(boarding.gender_preference) !== gender) return false;
+    if (gender && gender !== 'any' && normalize(boarding.gender_preference) !== gender && normalize(boarding.gender_preference) !== 'any') return false;
     if (wifi !== undefined && Boolean(boarding.wifi) !== wifi) return false;
     if (kitchen !== undefined && Boolean(boarding.kitchen) !== kitchen) return false;
     return true;

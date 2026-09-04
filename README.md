@@ -69,6 +69,24 @@ npm run dev
 
 The health check is available at `http://localhost:5000/api/health`.
 
+## Boarding data and matching
+
+Run `supabase/schema.sql` in the Supabase SQL Editor, then run `supabase/seed.sql` to load 20 fictional Sri Lankan listings. The schema enforces positive rent, non-negative distance, facility defaults, and automatic creation timestamps.
+
+Member 4's services can be used before wiring an endpoint:
+
+```js
+const { searchBoardings } = require('./services/searchService');
+const { rankBoardings } = require('./services/matchingService');
+
+const filtered = searchBoardings(boardings, req.query);
+const results = rankBoardings(filtered, req.query);
+```
+
+Supported filters are `location`, `maxBudget`, `roomType`, `gender`, `wifi`, and `kitchen`. Matching also accepts `maxDistance` and adds a `match_score` from 0 to 100.
+
+Run the focused service tests from the repository root with `node --test server/services/member4Services.test.js`.
+
 ## Running Both Projects
 
 Use two terminals:

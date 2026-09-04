@@ -61,6 +61,22 @@ SUPABASE_URL=your_supabase_url
 SUPABASE_KEY=your_supabase_key
 ```
 
+## Deployment Configuration
+
+For the deployed frontend, set `VITE_API_URL` in Vercel to your Render API URL including `/api`:
+
+```ini
+VITE_API_URL=https://boardme-lk.onrender.com/api
+```
+
+Set `CORS_ORIGINS` in Render to the Vercel deployment URL. Separate multiple domains with commas:
+
+```ini
+CORS_ORIGINS=https://mini-hackathon-gold.vercel.app
+```
+
+Render's root URL does not serve a web page. Use `https://boardme-lk.onrender.com/api/health` to verify the API.
+
 Start the backend:
 
 ```bash

@@ -14,12 +14,20 @@ const defaultDevOrigins = [
   'http://127.0.0.1:4173',
 ];
 
+const defaultProductionOrigins = [
+  'https://mini-hackathon-gold.vercel.app',
+];
+
 const configuredOrigins = (process.env.CORS_ORIGINS || '')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
 
-const allowedOrigins = new Set([...defaultDevOrigins, ...configuredOrigins]);
+const allowedOrigins = new Set([
+  ...defaultDevOrigins,
+  ...defaultProductionOrigins,
+  ...configuredOrigins,
+]);
 const localDevelopmentOrigin = /^http:\/\/(localhost|127\.0\.0\.1):\d+$/;
 
 const corsOptions = {

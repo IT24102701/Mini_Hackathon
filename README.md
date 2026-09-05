@@ -127,7 +127,7 @@ Microsoft Copilot – Assisted with code completion, component generation, refac
 
 ## Team Members
 
-IT24103238 - Fonseka N H D K
+IT24103228 - Fonseka N H D K
 IT24102811 - Jayasinghe P K A
 IT24102346 - Dewanarayana S D W	
 IT24102701 - Abeywardena W A A U	
@@ -152,7 +152,7 @@ Member 2 - IT24102346
 •	Created Facility Badge Components
 
 
-Member 3 – IT24103238
+Member 3 – IT24103228
 •	Developed Express Backend
 •	Implemented Boarding APIs
 •	Configured Supabase Integration
